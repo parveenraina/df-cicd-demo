@@ -24,6 +24,9 @@
 			"transformations": [
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -50,7 +53,24 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> sql",
-				"sql filter(!isNull(Size)) ~> filter1",
+				"select1 filter(!isNull(Size)) ~> filter1",
+				"sql select(mapColumn(",
+				"          ProductID,",
+				"          Name,",
+				"          ProductNumber,",
+				"          Color,",
+				"          StandardCost,",
+				"          ListPrice,",
+				"          Size,",
+				"          Weight,",
+				"          ProductCategoryID,",
+				"          ProductModelID,",
+				"          SellStartDate,",
+				"          SellEndDate,",
+				"          DiscontinuedDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
