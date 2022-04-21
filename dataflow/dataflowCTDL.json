@@ -24,9 +24,6 @@
 			"transformations": [
 				{
 					"name": "select1"
-				},
-				{
-					"name": "sort1"
 				}
 			],
 			"scriptLines": [
@@ -70,8 +67,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sort(asc(ProductNumber, true)) ~> sort1",
-				"sort1 sink(allowSchemaDrift: true,",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          {10} as string,",
