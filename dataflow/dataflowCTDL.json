@@ -12,7 +12,15 @@
 					"name": "sql"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dataset_csv",
+						"type": "DatasetReference"
+					},
+					"name": "storage"
+				}
+			],
 			"transformations": [
 				{
 					"name": "filter1"
@@ -42,7 +50,20 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> sql",
-				"sql filter(ERROR_FUNCTION('')) ~> filter1"
+				"sql filter(!isNull(Size)) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {10} as string,",
+				"          {11} as string,",
+				"          {34.48} as string,",
+				"          {12.15} as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> storage"
 			]
 		}
 	}
